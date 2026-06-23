@@ -102,42 +102,20 @@ const Hero = () => {
           {/* Trust Badges */}
           <div className="hero-trust">
             <div className="trust-badge">
-              <span className="trust-icon">✅</span>
-              <span>Trusted by 5000+ Farmers</span>
+              <span className="trust-icon"></span>
+              <span>Trusted by 1L+ Farmers</span>
             </div>
             <div className="trust-divider" aria-hidden="true" />
             <div className="trust-badge">
-              <span className="trust-icon">🤝</span>
-              <span>100+ Dealers Across India</span>
+              <span className="trust-icon"></span>
+              <span>200+ Dealers</span>
             </div>
             <div className="trust-divider" aria-hidden="true" />
             <div className="trust-badge">
-              <span className="trust-icon">🛡️</span>
+              <span className="trust-icon"></span>
               <span>Warranty on All Products</span>
             </div>
           </div>
-        </div>
-
-        {/* Right: Floating Stats Cards */}
-        <div className="hero-stats" aria-label="Key statistics">
-          {[
-            { value: '5K+', label: 'Happy Farmers', icon: '🌾' },
-            { value: '100+', label: 'Dealers Pan India', icon: '🗺️' },
-            { value: '6', label: 'Product Lines', icon: '⚙️' },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="hero-stat-card"
-              style={{ animationDelay: `${i * 0.15}s` }}
-              aria-label={`${stat.value} ${stat.label}`}
-            >
-              <span className="stat-icon" aria-hidden="true">{stat.icon}</span>
-              <div>
-                <div className="stat-value">{stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 

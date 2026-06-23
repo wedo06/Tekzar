@@ -1,4 +1,9 @@
 import React, { useRef, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Quote, MessageCircleHeart } from 'lucide-react';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { testimonials } from '../data/products';
 import './Testimonials.css';
 
@@ -38,7 +43,7 @@ const Testimonials = () => {
 
       <div className="container">
         <div className="testimonials-header fade-in">
-          <div className="section-tag"><span>💬</span> What Farmers Say</div>
+          <div className="section-tag"><MessageCircleHeart size={18} /> What Farmers Say</div>
           <h2 className="section-title" id="testimonials-title">
             Real Stories from <span>Real Farmers</span>
           </h2>
@@ -47,37 +52,44 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="testimonials-grid" role="list">
-          {testimonials.map((t, i) => (
-            <article
-              key={i}
-              className="testimonial-card fade-in"
-              style={{ transitionDelay: `${i * 0.1}s` }}
-              role="listitem"
-            >
-              {/* Quote Icon */}
-              <div className="quote-icon" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                  <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
-                </svg>
-              </div>
+        <div className="testimonials-slider fade-in" style={{ transitionDelay: '0.2s' }}>
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            spaceBetween={20}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+              1280: { slidesPerView: 4 },
+            }}
+          >
+            {testimonials.map((t, i) => (
+              <SwiperSlide key={i}>
+                <article className="testimonial-card" role="listitem">
+                  {/* Quote Icon */}
+                  <div className="quote-icon" aria-hidden="true">
+                    <Quote size={28} />
+                  </div>
 
-              <StarRating rating={t.rating} />
+                  <StarRating rating={t.rating} />
 
-              <blockquote className="testimonial-text">"{t.text}"</blockquote>
+                  <blockquote className="testimonial-text">"{t.text}"</blockquote>
 
-              <div className="testimonial-author">
-                <div className="author-avatar" aria-hidden="true">
-                  {t.initials}
-                </div>
-                <div className="author-info">
-                  <cite className="author-name">{t.name}</cite>
-                  <span className="author-role">{t.role}, {t.location}</span>
-                </div>
-              </div>
-            </article>
-          ))}
+                  <div className="testimonial-author">
+                    <div className="author-avatar" aria-hidden="true">
+                      {t.initials}
+                    </div>
+                    <div className="author-info">
+                      <cite className="author-name">{t.name}</cite>
+                      <span className="author-role">{t.role}, {t.location}</span>
+                    </div>
+                  </div>
+                </article>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </section>

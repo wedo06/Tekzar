@@ -1,4 +1,5 @@
 import React from 'react';
+import logoImg from '../assets/logo.png';
 import './Footer.css';
 
 const Footer = () => {
@@ -37,12 +38,7 @@ const Footer = () => {
             {/* Brand */}
             <div className="footer-brand">
               <div className="footer-logo">
-                <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                  <polygon points="20,2 38,32 2,32" fill="none" stroke="#FF6B00" strokeWidth="3"/>
-                  <polygon points="20,10 32,30 8,30" fill="#FF6B00" opacity="0.3"/>
-                  <line x1="20" y1="2" x2="20" y2="32" stroke="#FF6B00" strokeWidth="2"/>
-                </svg>
-                <span className="footer-brand-name">TEKZAR</span>
+                <img src={logoImg} alt="TEKZAR Logo" className="footer-logo-img" />
               </div>
               <p className="footer-desc">
                 Leading importer and distributor of agricultural, gardening and power equipment in India.
@@ -50,13 +46,13 @@ const Footer = () => {
               </p>
               <div className="footer-contact-quick">
                 <a href="tel:+917200949459" className="footer-contact-item" aria-label="Call TEKZAR">
-                  📞 +91 72009 49459
+                  +91 72009 49459
                 </a>
                 <a href="mailto:info@shalomgreentech.in" className="footer-contact-item" aria-label="Email TEKZAR">
-                  📧 info@shalomgreentech.in
+                  info@shalomgreentech.in
                 </a>
                 <span className="footer-contact-item">
-                  🌐 www.shalomgreentech.in
+                  www.shalomgreentech.in
                 </span>
               </div>
               <div className="footer-socials">
@@ -72,10 +68,10 @@ const Footer = () => {
                   </svg>
                 </a>
                 <a href="mailto:info@shalomgreentech.in" className="social-btn" aria-label="Email TEKZAR">
-                  📧
+                  Email
                 </a>
                 <a href="tel:+917200949459" className="social-btn" aria-label="Call TEKZAR">
-                  📞
+                  Call
                 </a>
               </div>
             </div>

@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LayoutGrid } from 'lucide-react';
 import { categories } from '../data/products';
 import './Categories.css';
+
+import { Link } from 'react-router-dom';
 
 const CategoryCard = ({ cat, index }) => {
   const [hovered, setHovered] = useState(false);
@@ -43,7 +47,6 @@ const CategoryCard = ({ cat, index }) => {
           </div>
         )}
         <div className="cat-img-overlay" style={{ '--cat-color': cat.color }} />
-        <span className="cat-count-badge">{cat.count} Models</span>
       </div>
 
       {/* Info */}
@@ -58,29 +61,15 @@ const CategoryCard = ({ cat, index }) => {
         </div>
         <p className="cat-desc">{cat.description}</p>
 
-        {/* Sub Categories */}
-        <div className="cat-subs">
-          {cat.subCategories.slice(0, 3).map((sub) => (
-            <span key={sub} className="cat-sub-tag">{sub}</span>
-          ))}
-          {cat.subCategories.length > 3 && (
-            <span className="cat-sub-tag cat-sub-more">+{cat.subCategories.length - 3} more</span>
-          )}
-        </div>
+        {/* Removed inline sub categories */}
 
-        <button
+        <Link
+          to={`/category/${cat.id}`}
           className="btn btn-outline-orange btn-sm cat-btn"
-          onClick={() => {
-            const el = document.getElementById('contact');
-            if (el) {
-              const top = el.getBoundingClientRect().top + window.scrollY - 70;
-              window.scrollTo({ top, behavior: 'smooth' });
-            }
-          }}
-          aria-label={`Enquire about ${cat.name}`}
+          aria-label={`View sub categories of ${cat.name}`}
         >
-          Enquire Now →
-        </button>
+          View Sub Categories →
+        </Link>
       </div>
     </article>
   );
@@ -111,9 +100,7 @@ const Categories = () => {
       <div className="container">
         {/* Header */}
         <div className="categories-header fade-in" ref={headerRef}>
-          <div className="section-tag">
-            <span>📦</span> Our Categories
-          </div>
+          <div className="section-tag"><LayoutGrid size={18} /> Explore our Categories</div>
           <h2 className="section-title" id="categories-title">
             Everything You Need,<br />
             <span>All in One Place.</span>

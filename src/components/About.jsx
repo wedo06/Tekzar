@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from 'react';
+import { Info, Target, Eye, Diamond, MapPin, Wrench } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 import './About.css';
 
 const About = () => {
@@ -26,9 +28,9 @@ const About = () => {
   ];
 
   const values = [
-    { icon: '🎯', title: 'Our Mission', desc: 'To empower every Indian farmer with reliable, innovative, and affordable machinery that transforms their livelihood.' },
-    { icon: '🌱', title: 'Our Vision', desc: 'To become India\'s most trusted agricultural equipment brand, present in every farming district of the country.' },
-    { icon: '💎', title: 'Our Values', desc: 'Quality, affordability, innovation, and farmer-first service are the pillars on which TEKZAR is built.' },
+    { icon: <Target size={32} />, title: 'Our Mission', desc: 'To empower every Indian farmer with reliable, innovative, and affordable machinery that transforms their livelihood.' },
+    { icon: <Eye size={32} />, title: 'Our Vision', desc: 'To become India\'s most trusted agricultural equipment brand, present in every farming district of the country.' },
+    { icon: <Diamond size={32} />, title: 'Our Values', desc: 'Quality, affordability, innovation, and farmer-first service are the pillars on which TEKZAR is built.' },
   ];
 
   return (
@@ -43,7 +45,7 @@ const About = () => {
       <div className="container">
         {/* Header */}
         <div className="about-header fade-in">
-          <div className="section-tag"><span>🏭</span> About Us</div>
+          <div className="section-tag"><Info size={18} /> About Us</div>
           <h2 className="section-title" id="about-title">
             The Story Behind <span>TEKZAR</span>
           </h2>
@@ -78,20 +80,15 @@ const About = () => {
               <span className="ov-label">Best Prices</span>
             </div>
             <div className="overview-card overview-card-2">
-              <span className="ov-num">🇮🇳</span>
+              <span className="ov-num"><MapPin size={24} /></span>
               <span className="ov-label">Made for India</span>
             </div>
             <div className="overview-card overview-card-3">
-              <span className="ov-num">🔧</span>
+              <span className="ov-num"><Wrench size={24} /></span>
               <span className="ov-label">Full Support</span>
             </div>
-            <div className="overview-center-badge">
-              <svg width="48" height="48" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                <polygon points="20,2 38,32 2,32" fill="none" stroke="#FF6B00" strokeWidth="3"/>
-                <polygon points="20,10 32,30 8,30" fill="#FF6B00" opacity="0.4"/>
-                <line x1="20" y1="2" x2="20" y2="32" stroke="#FF6B00" strokeWidth="2"/>
-              </svg>
-              <span>TEKZAR</span>
+            <div className="overview-center-badge" style={{ padding: '16px', background: 'var(--white)', borderRadius: '50%' }}>
+              <img src={logoImg} alt="TEKZAR Logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
             </div>
           </div>
         </div>

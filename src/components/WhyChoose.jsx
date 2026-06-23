@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { ThumbsUp } from 'lucide-react';
 import { whyChoosePoints } from '../data/products';
 import './WhyChoose.css';
 
@@ -33,8 +34,8 @@ const WhyChoose = () => {
         <div className="why-layout">
           {/* Left: Text */}
           <div className="why-left fade-in">
-            <div className="section-tag">
-              <span>⭐</span> Why TEKZAR?
+            <div className="why-header fade-in">
+              <div className="section-tag"><ThumbsUp size={18} /> Why Choose TEKZAR</div>
             </div>
             <h2 className="section-title" id="why-title">
               The Farmer's

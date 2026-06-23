@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { MessageSquare, Phone, Mail, Globe, MapPin, CheckCircle } from 'lucide-react';
 import './Contact.css';
 
 const Contact = () => {
@@ -39,25 +40,25 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: '📞',
+      icon: <Phone size={24} />,
       label: 'Phone / WhatsApp',
       value: '+91 72009 49459',
       link: 'tel:+917200949459',
     },
     {
-      icon: '📧',
+      icon: <Mail size={24} />,
       label: 'Email',
       value: 'info@shalomgreentech.in',
       link: 'mailto:info@shalomgreentech.in',
     },
     {
-      icon: '🌐',
+      icon: <Globe size={24} />,
       label: 'Website',
       value: 'www.shalomgreentech.in',
       link: 'https://www.shalomgreentech.in',
     },
     {
-      icon: '📍',
+      icon: <MapPin size={24} />,
       label: 'Location',
       value: '125, Industrial Area, Coimbatore, Tamil Nadu, India',
       link: null,
@@ -78,7 +79,7 @@ const Contact = () => {
 
       <div className="container">
         <div className="contact-header fade-in">
-          <div className="section-tag"><span>📞</span> Get In Touch</div>
+          <div className="section-tag"><MessageSquare size={18} /> Get In Touch</div>
           <h2 className="section-title" id="contact-title">
             Let's Talk <span>Agriculture.</span>
           </h2>
@@ -126,7 +127,7 @@ const Contact = () => {
                 Chat on WhatsApp
               </a>
               <a href="tel:+917200949459" className="btn btn-secondary" aria-label="Call TEKZAR">
-                📞 Call Now
+                Call Now
               </a>
             </div>
           </div>
@@ -139,7 +140,7 @@ const Contact = () => {
 
               {submitted ? (
                 <div className="form-success" role="alert" aria-live="polite">
-                  <div className="success-icon">🎉</div>
+                  <div className="success-icon"><CheckCircle size={48} color="#16A34A" /></div>
                   <h4>Message Sent!</h4>
                   <p>We'll get back to you on WhatsApp very soon.</p>
                 </div>

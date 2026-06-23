@@ -1,45 +1,21 @@
 import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Categories from './components/Categories';
-import WhyChoose from './components/WhyChoose';
-import FeaturedProducts from './components/FeaturedProducts';
-import StatsSection from './components/StatsSection';
-import DealerSection from './components/DealerSection';
-import Testimonials from './components/Testimonials';
-import About from './components/About';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import CategoryDetail from './pages/CategoryDetail';
+import About from './components/About';
+import DealerSection from './components/DealerSection';
+import Contact from './components/Contact';
 import './App.css';
 
-/* ── Marquee / Ticker Banner ── */
-const TickerBanner = () => {
-  const items = [
-    '⚡ Brush Cutters',
-    '🌾 Power Weeders',
-    '🪚 Chainsaws',
-    '💧 Battery Sprayers',
-    '🌿 Chaff Cutters',
-    '⚡ Portable Generators',
-    '🛡️ Warranty on All Products',
-    '🤝 100+ Dealers Pan India',
-    '✅ 5000+ Happy Farmers',
-    '🚀 Excellence Made Affordable',
-  ];
-
-  return (
-    <div className="ticker-banner" aria-label="Ticker banner">
-      <div className="ticker-track" aria-hidden="true">
-        {/* Duplicate for seamless loop */}
-        {[...items, ...items].map((item, i) => (
-          <span key={i} className="ticker-item">
-            {item}
-            <span className="ticker-dot">•</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
+/* ── ScrollToTop ── */
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
 };
 
 /* ── Main App ── */
@@ -57,26 +33,34 @@ function App() {
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
 
-    const elements = document.querySelectorAll('.fade-in');
-    elements.forEach((el) => observer.observe(el));
+    const observeNodes = () => {
+      const elements = document.querySelectorAll('.fade-in:not(.visible)');
+      elements.forEach((el) => observer.observe(el));
+    };
 
-    return () => observer.disconnect();
+    // Observe immediately and then on changes
+    observeNodes();
+    const mutationObserver = new MutationObserver(observeNodes);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <main id="main-content">
-        <Hero />
-        <TickerBanner />
-        <Categories />
-        <WhyChoose />
-        <FeaturedProducts />
-        <StatsSection />
-        <DealerSection />
-        <Testimonials />
-        <About />
-        <Contact />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/category/:id" element={<CategoryDetail />} />
+          <Route path="/about" element={<div style={{paddingTop: '70px'}}><About /></div>} />
+          <Route path="/dealers" element={<div style={{paddingTop: '70px'}}><DealerSection /></div>} />
+          <Route path="/contact" element={<div style={{paddingTop: '70px'}}><Contact /></div>} />
+        </Routes>
       </main>
       <Footer />
     </>

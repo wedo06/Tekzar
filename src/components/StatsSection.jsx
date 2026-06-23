@@ -33,7 +33,7 @@ const useCountUp = (target, isVisible) => {
 const StatItem = ({ stat, isVisible }) => {
   const count = useCountUp(stat.value, isVisible);
   const hasPlus = stat.value.includes('+');
-  const isText = isNaN(parseInt(stat.value));
+  const isText = isNaN(parseInt(stat.value)) || stat.value.includes('L');
 
   return (
     <div className="stat-item" aria-label={`${stat.value} ${stat.label}`}>

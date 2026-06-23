@@ -81,8 +81,8 @@ a.footer-contact-item:hover { color: var(--orange-primary); }
 }
 
 .social-btn {
-  width: 38px;
   height: 38px;
+  padding: 0 16px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -106,6 +106,7 @@ a.footer-contact-item:hover { color: var(--orange-primary); }
   background: rgba(37, 211, 102, 0.1);
   border-color: rgba(37, 211, 102, 0.2);
   color: #25D366;
+  padding: 0 12px;
 }
 
 .whatsapp-social:hover {
@@ -272,4 +273,11 @@ a.footer-contact-item:hover { color: var(--orange-primary); }
   .footer-main { padding: 48px 0 32px; }
   .footer-bottom-inner { flex-direction: column; text-align: center; }
   .wa-float { bottom: 16px; right: 16px; }
+}
+
+.footer-logo-img {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 8px;
 }

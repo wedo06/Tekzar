@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Star } from 'lucide-react';
 import { featuredProducts } from '../data/products';
 import './FeaturedProducts.css';
 
@@ -94,9 +95,9 @@ const FeaturedProducts = () => {
       </div>
 
       <div className="container">
-        <div className="featured-header">
+        <div className="featured-header fade-in">
           <div>
-            <div className="section-tag"><span>🔥</span> Featured Products</div>
+            <div className="section-tag"><Star size={18} /> Best Sellers</div>
             <h2 className="section-title" id="featured-title">
               Top Rated by <span>Farmers</span>
             </h2>

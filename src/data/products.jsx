@@ -1,3 +1,4 @@
+import { ShieldCheck, Settings, Users, Truck, Zap, Award, Smile, CheckCircle, PackageSearch, MapPin } from 'lucide-react';
 import brushCutter from '../assets/images/brush_cutter.png';
 import powerWeeder from '../assets/images/power_weeder.png';
 import chainsaw from '../assets/images/chainsaw.png';
@@ -8,62 +9,85 @@ export const categories = [
   {
     id: 'brush-cutters',
     name: 'Brush Cutters',
-    icon: '⚡',
+    icon: '',
     image: brushCutter,
     description: 'High-performance brush cutters for every terrain',
-    subCategories: ['2 Stroke', '4 Stroke', 'Backpack', 'Professional', 'Spare Parts'],
+    subCategories: [
+      { name: '2 Stroke', image: brushCutter },
+      { name: '4 Stroke', image: brushCutter },
+      { name: 'Backpack', image: brushCutter },
+      { name: 'Professional', image: brushCutter },
+      { name: 'Spare Parts', image: brushCutter },
+    ],
     color: '#FF6B00',
-    count: 24,
   },
   {
     id: 'power-weeders',
     name: 'Power Weeders',
-    icon: '🌾',
+    icon: '',
     image: powerWeeder,
     description: 'Efficient power weeders for precision farming',
-    subCategories: ['Mini Weeders', 'Petrol', 'Diesel', 'Intercultivators'],
+    subCategories: [
+      { name: 'Mini Weeders', image: powerWeeder },
+      { name: 'Petrol', image: powerWeeder },
+      { name: 'Diesel', image: powerWeeder },
+      { name: 'Intercultivators', image: powerWeeder },
+    ],
     color: '#E53E3E',
-    count: 18,
   },
   {
     id: 'chainsaws',
     name: 'Chainsaws',
-    icon: '🪚',
+    icon: '',
     image: chainsaw,
     description: 'Professional grade chainsaws for all applications',
-    subCategories: ['Domestic', 'Professional', 'Tree Cutting', 'Spare Parts'],
+    subCategories: [
+      { name: 'Domestic', image: chainsaw },
+      { name: 'Professional', image: chainsaw },
+      { name: 'Tree Cutting', image: chainsaw },
+      { name: 'Spare Parts', image: chainsaw },
+    ],
     color: '#D97706',
-    count: 15,
   },
   {
     id: 'battery-sprayers',
     name: 'Battery Sprayers',
-    icon: '💧',
+    icon: '',
     image: batterySprayer,
     description: 'Lithium-powered sprayers for modern farming',
-    subCategories: ['12L', '16L', 'Knapsack', 'Lithium Battery Sprayers'],
+    subCategories: [
+      { name: '12L', image: batterySprayer },
+      { name: '16L', image: batterySprayer },
+      { name: 'Knapsack', image: batterySprayer },
+      { name: 'Lithium Battery Sprayers', image: batterySprayer },
+    ],
     color: '#2563EB',
-    count: 20,
   },
   {
     id: 'chaff-cutters',
     name: 'Chaff Cutters',
-    icon: '🌿',
+    icon: '',
     image: chaffCutter,
     description: 'Robust chaff cutters for efficient fodder preparation',
-    subCategories: ['Electric', 'Diesel', 'Heavy Duty Chaff Cutters'],
+    subCategories: [
+      { name: 'Electric', image: chaffCutter },
+      { name: 'Diesel', image: chaffCutter },
+      { name: 'Heavy Duty Chaff Cutters', image: chaffCutter },
+    ],
     color: '#16A34A',
-    count: 12,
   },
   {
     id: 'portable-generators',
     name: 'Portable Generators',
-    icon: '⚡',
+    icon: '',
     image: null,
     description: 'Reliable portable generators for any power need',
-    subCategories: ['Open Type', 'Silent', 'Inverter Generators'],
+    subCategories: [
+      { name: 'Open Type', image: null },
+      { name: 'Silent', image: null },
+      { name: 'Inverter Generators', image: null },
+    ],
     color: '#7C3AED',
-    count: 10,
   },
 ];
 
@@ -122,42 +146,42 @@ export const featuredProducts = [
 
 export const whyChoosePoints = [
   {
-    icon: '💰',
+    icon: <Zap size={24} />,
     title: 'Affordable Pricing',
     desc: 'Best equipment at competitive prices for every budget.',
   },
   {
-    icon: '🔩',
+    icon: <Settings size={24} />,
     title: 'Genuine Spare Parts',
     desc: 'Original parts for longer machine life.',
   },
   {
-    icon: '🌍',
-    title: 'Dealer Network Across India',
-    desc: '100+ dealers for easy access & support.',
+    icon: <Users size={24} />,
+    title: 'Dealer Network',
+    desc: '200+ dealers for easy access & support.',
   },
   {
-    icon: '🛠️',
+    icon: <Truck size={24} />,
     title: 'Fast Service Support',
-    desc: 'Quick assistance wherever you need it.',
+    desc: 'Quick assistance in Tamil Nadu and Kerala.',
   },
   {
-    icon: '💪',
+    icon: <ShieldCheck size={24} />,
     title: 'Heavy Duty Equipment',
     desc: 'Built for Indian farming conditions.',
   },
   {
-    icon: '🛡️',
+    icon: <Award size={24} />,
     title: 'Warranty Support',
     desc: 'Reliable warranty on all products.',
   },
 ];
 
 export const stats = [
-  { value: '5000+', label: 'Happy Customers', icon: '😊' },
-  { value: '100+', label: 'Dealers Across India', icon: '🤝' },
-  { value: '6', label: 'Product Categories', icon: '📦' },
-  { value: 'Pan India', label: 'Distribution Network', icon: '🗺️' },
+  { value: '1L+', label: 'Happy Farmers', icon: <Smile size={28} /> },
+  { value: '200+', label: 'Dealers', icon: <Users size={28} /> },
+  { value: '6', label: 'Product Categories', icon: <PackageSearch size={28} /> },
+  { value: 'TN & KL', label: 'Service Network', icon: <MapPin size={28} /> },
 ];
 
 export const testimonials = [

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { TrendingUp, Banknote, Truck, Megaphone, Wrench, CheckCircle } from 'lucide-react';
 import './DealerSection.css';
 
 const DealerSection = () => {
@@ -46,10 +47,10 @@ const DealerSection = () => {
   ];
 
   const perks = [
-    { icon: '💰', text: 'Attractive Dealer Margins' },
-    { icon: '🚚', text: 'Timely Deliveries' },
-    { icon: '📢', text: 'Marketing Support' },
-    { icon: '🔧', text: 'After Sales Support' },
+    { icon: <Banknote size={24} />, text: 'Attractive Dealer Margins' },
+    { icon: <Truck size={24} />, text: 'Timely Deliveries' },
+    { icon: <Megaphone size={24} />, text: 'Marketing Support' },
+    { icon: <Wrench size={24} />, text: 'After Sales Support' },
   ];
 
   return (
@@ -64,7 +65,7 @@ const DealerSection = () => {
         <div className="dealer-layout">
           {/* Left */}
           <div className="dealer-left fade-in">
-            <div className="section-tag"><span>🤝</span> Grow With TEKZAR</div>
+            <div className="section-tag"><TrendingUp size={18} /> Grow With TEKZAR</div>
             <h2 className="section-title" id="dealer-title">
               Become a
               <br />
@@ -105,7 +106,7 @@ const DealerSection = () => {
 
               {submitted ? (
                 <div className="form-success" role="alert" aria-live="polite">
-                  <div className="success-icon">✅</div>
+                  <div className="success-icon"><CheckCircle size={48} color="#16A34A" /></div>
                   <h4>Application Sent!</h4>
                   <p>We'll contact you on WhatsApp within 24 hours.</p>
                 </div>
