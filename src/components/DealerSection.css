@@ -1,0 +1,210 @@
+/* ===== DEALER SECTION STYLES ===== */
+.dealer-section {
+  background: var(--dark-900);
+  position: relative;
+  overflow: hidden;
+}
+
+.dealer-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dealer-bg-orb {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.dealer-grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 107, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 107, 0, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Layout */
+.dealer-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Left */
+.dealer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dealer-perks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dealer-perk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 107, 0, 0.06);
+  border: 1px solid rgba(255, 107, 0, 0.15);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.perk-icon { font-size: 1.2rem; }
+
+.dealer-wa-btn { align-self: flex-start; }
+
+/* Form Card */
+.dealer-form-card {
+  background: var(--dark-600);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--border-radius-xl);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dealer-form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--orange-primary), var(--orange-light), var(--orange-primary));
+  background-size: 200%;
+  animation: shimmer 3s linear infinite;
+}
+
+.form-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.form-subtitle {
+  font-size: 0.85rem;
+  color: var(--gray-400);
+  margin-bottom: 28px;
+}
+
+/* Form */
+.dealer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.03em;
+}
+
+.form-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--white);
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: all var(--transition-fast);
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+.form-input:focus {
+  border-color: var(--orange-primary);
+  background: rgba(255, 107, 0, 0.05);
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+}
+
+.form-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4L6 8L10 4' stroke='%23999' strokeWidth='1.5' strokeLinecap='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.form-select option {
+  background: var(--dark-600);
+  color: var(--white);
+}
+
+.form-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+/* Success */
+.form-success {
+  text-align: center;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.success-icon {
+  font-size: 3rem;
+  animation: scaleIn 0.5s var(--transition-spring);
+}
+
+.form-success h4 {
+  font-size: 1.3rem;
+  color: var(--white);
+}
+
+.form-success p {
+  color: var(--gray-400);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .dealer-layout { grid-template-columns: 1fr; gap: 48px; }
+  .dealer-left { max-width: 600px; }
+}
+
+@media (max-width: 600px) {
+  .dealer-form-card { padding: 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .dealer-perks { grid-template-columns: 1fr; }
+}

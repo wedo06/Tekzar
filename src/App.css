@@ -1,0 +1,77 @@
+/* ===== APP-LEVEL & TICKER STYLES ===== */
+
+/* Ticker Banner */
+.ticker-banner {
+  background: var(--orange-primary);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 10px 0;
+  position: relative;
+  z-index: 10;
+}
+
+.ticker-track {
+  display: inline-flex;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.04em;
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+.ticker-dot {
+  margin-left: 20px;
+  opacity: 0.6;
+}
+
+/* Pause on hover */
+.ticker-banner:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+/* ===== GLOBAL SCROLL ANIMATION REINFORCEMENT ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  background: var(--orange-primary);
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: top 0.2s;
+}
+
+.skip-link:focus { top: 16px; }
+
+/* Smooth page transitions */
+#main-content { overflow: hidden; }
+
+/* Selection color */
+::selection {
+  background: rgba(255, 107, 0, 0.3);
+  color: var(--white);
+}

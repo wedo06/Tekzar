@@ -1,0 +1,132 @@
+/* ===== WHY CHOOSE STYLES ===== */
+.why-section {
+  background: var(--dark-900);
+  position: relative;
+  overflow: hidden;
+}
+
+.why-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.why-bg-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 60px,
+    rgba(255, 107, 0, 0.015) 60px,
+    rgba(255, 107, 0, 0.015) 61px
+  );
+}
+
+.why-bg-glow {
+  position: absolute;
+  top: 50%;
+  right: -100px;
+  transform: translateY(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* Layout */
+.why-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Left */
+.why-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.why-left .section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.why-cta-wrap {
+  margin-top: 8px;
+}
+
+/* Right: Grid */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Card */
+.why-card {
+  background: var(--dark-600);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  transition: all var(--transition-base);
+  cursor: default;
+}
+
+.why-card:hover {
+  border-color: rgba(255, 107, 0, 0.3);
+  background: rgba(255, 107, 0, 0.04);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.why-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 107, 0, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.why-card:hover .why-icon {
+  background: rgba(255, 107, 0, 0.2);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
+}
+
+.why-title-card {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.why-desc {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .why-layout { grid-template-columns: 1fr; gap: 48px; }
+  .why-left { max-width: 560px; }
+}
+
+@media (max-width: 640px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .why-card { padding: 18px; }
+}
