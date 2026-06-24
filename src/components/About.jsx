@@ -21,15 +21,21 @@ const About = () => {
   }, []);
 
   const milestones = [
-    { year: '2015', label: 'Founded', desc: 'Tekzar Equipments Pvt Ltd established in Coimbatore' },
-    { year: '2018', label: 'Pan India', desc: 'Expanded distribution network across all major states' },
+    { year: '2015', label: 'Founded', desc: 'Tekzar Equipments Pvt Ltd established in Coimbatore, Tamil Nadu' },
+    { year: '2018', label: 'Kerala & TN', desc: 'Expanded distribution network across Kerala and Tamil Nadu' },
     { year: '2021', label: '5000+', desc: 'Surpassed 5000 happy customers milestone' },
-    { year: '2024', label: '100+ Dealers', desc: "Built India's strongest agri-equipment dealer network" },
+    { year: '2024', label: '200+ Dealers', desc: 'Built the strongest agri-equipment dealer network in South India' },
+  ];
+
+  const directors = [
+    { name: 'Sabari', title: 'Director', initials: 'SA', color: '#FF6B00' },
+    { name: 'Antrow Simon', title: 'Director', initials: 'AS', color: '#E65C00' },
+    { name: 'Sakthivel', title: 'Director', initials: 'SK', color: '#FF8C42' },
   ];
 
   const values = [
-    { icon: <Target size={32} />, title: 'Our Mission', desc: 'To empower every Indian farmer with reliable, innovative, and affordable machinery that transforms their livelihood.' },
-    { icon: <Eye size={32} />, title: 'Our Vision', desc: 'To become India\'s most trusted agricultural equipment brand, present in every farming district of the country.' },
+    { icon: <Target size={32} />, title: 'Our Mission', desc: 'To empower every farmer in Kerala and Tamil Nadu with reliable, innovative, and affordable machinery that transforms their livelihood.' },
+    { icon: <Eye size={32} />, title: 'Our Vision', desc: 'To become the most trusted agricultural equipment brand across Kerala and Tamil Nadu, present in every farming district.' },
     { icon: <Diamond size={32} />, title: 'Our Values', desc: 'Quality, affordability, innovation, and farmer-first service are the pillars on which TEKZAR is built.' },
   ];
 
@@ -60,8 +66,8 @@ const About = () => {
           <div className="overview-text">
             <p>
               <strong>Tekzar Equipments Pvt Ltd</strong> is a leading importer and distributor of agricultural,
-              gardening, and power equipment in India. Based in Coimbatore, Tamil Nadu, we serve farmers
-              and professionals across the country with a wide range of high-quality machinery.
+              gardening, and power equipment. Based in Coimbatore, Tamil Nadu, we proudly serve farmers
+              and professionals across <strong>Kerala and Tamil Nadu</strong> with a wide range of high-quality machinery.
             </p>
             <p>
               Under the brand name <strong>TEKZAR</strong> — with the tagline <em>"Excellence Made Affordable"</em> —
@@ -71,7 +77,7 @@ const About = () => {
             <p>
               Our product portfolio spans Brush Cutters, Power Weeders, Chainsaws, Battery Sprayers,
               Chaff Cutters, and Portable Generators — all backed by genuine spare parts support and
-              a growing pan-India dealer network of 100+ partners.
+              a growing dealer network of <strong>200+ partners</strong> across South India.
             </p>
           </div>
           <div className="overview-visual" aria-hidden="true">
@@ -121,6 +127,21 @@ const About = () => {
                   <strong>{m.label}</strong>
                   <p>{m.desc}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Directors / Leadership */}
+        <div className="about-leadership-wrap fade-in">
+          <h3 className="timeline-heading">Meet Our Leadership</h3>
+          <div className="directors-grid">
+            {directors.map((d, i) => (
+              <div key={i} className="director-card">
+                <div className="director-avatar" style={{ background: `linear-gradient(135deg, ${d.color}, #1a1a1a)` }}>
+                  <span>{d.initials}</span>
+                </div>
+                <h4 className="director-name">{d.name}</h4>
+                <p className="director-title">{d.title}</p>
               </div>
             ))}
           </div>

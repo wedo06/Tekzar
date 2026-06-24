@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import heroImage from '../assets/images/hero_farmer.png';
 import './Hero.css';
 
@@ -50,7 +51,7 @@ const Hero = () => {
           {/* Tag */}
           <div className="hero-tag">
             <span className="hero-tag-dot" aria-hidden="true" />
-            <span>POWERING INDIAN AGRICULTURE</span>
+            <span>POWERING KERALA & TAMIL NADU AGRICULTURE</span>
           </div>
 
           {/* Headline */}
@@ -80,23 +81,15 @@ const Hero = () => {
               </svg>
               Explore Products
             </button>
-            <a
-              href="#dealers"
+            <Link
+              to="/dealers"
               className="btn btn-secondary btn-lg"
-              onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById('dealers');
-                if (el) {
-                  const top = el.getBoundingClientRect().top + window.scrollY - 70;
-                  window.scrollTo({ top, behavior: 'smooth' });
-                }
-              }}
             >
               Become a Dealer
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-            </a>
+            </Link>
           </div>
 
           {/* Trust Badges */}

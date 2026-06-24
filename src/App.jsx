@@ -7,64 +7,70 @@ import CategoryDetail from './pages/CategoryDetail';
 import About from './components/About';
 import DealerSection from './components/DealerSection';
 import Contact from './components/Contact';
+
+// Admin
+import AdminLogin from './admin/AdminLogin';
+import AdminDashboard from './admin/AdminDashboard';
+import ProtectedRoute from './admin/ProtectedRoute';
+
 import './App.css';
 
 /* ── ScrollToTop ── */
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 };
 
-/* ── Main App ── */
-function App() {
-  /* IntersectionObserver for all .fade-in elements */
+/* ── Public Layout (with Navbar & Footer) ── */
+const PublicLayout = ({ children }) => (
+  <>
+    <Navbar />
+    <main id="main-content">{children}</main>
+    <Footer />
+  </>
+);
+
+/* ── Inner App (uses router hooks) ── */
+function AppInner() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   useEffect(() => {
+    if (isAdminRoute) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('visible')),
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
-
-    const observeNodes = () => {
-      const elements = document.querySelectorAll('.fade-in:not(.visible)');
-      elements.forEach((el) => observer.observe(el));
-    };
-
-    // Observe immediately and then on changes
+    const observeNodes = () =>
+      document.querySelectorAll('.fade-in:not(.visible)').forEach((el) => observer.observe(el));
     observeNodes();
-    const mutationObserver = new MutationObserver(observeNodes);
-    mutationObserver.observe(document.body, { childList: true, subtree: true });
-
-    return () => {
-      observer.disconnect();
-      mutationObserver.disconnect();
-    };
-  }, []);
+    const mo = new MutationObserver(observeNodes);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => { observer.disconnect(); mo.disconnect(); };
+  }, [isAdminRoute]);
 
   return (
     <>
       <ScrollToTop />
-      <Navbar />
-      <main id="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/category/:id" element={<CategoryDetail />} />
-          <Route path="/about" element={<div style={{paddingTop: '70px'}}><About /></div>} />
-          <Route path="/dealers" element={<div style={{paddingTop: '70px'}}><DealerSection /></div>} />
-          <Route path="/contact" element={<div style={{paddingTop: '70px'}}><Contact /></div>} />
-        </Routes>
-      </main>
-      <Footer />
+      <Routes>
+        {/* Admin Routes (no Navbar/Footer) */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}
+        />
+
+        {/* Public Routes */}
+        <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+        <Route path="/category/:id" element={<PublicLayout><CategoryDetail /></PublicLayout>} />
+        <Route path="/about" element={<PublicLayout><div style={{ paddingTop: '70px' }}><About /></div></PublicLayout>} />
+        <Route path="/dealers" element={<PublicLayout><div style={{ paddingTop: '70px' }}><DealerSection /></div></PublicLayout>} />
+        <Route path="/contact" element={<PublicLayout><div style={{ paddingTop: '70px' }}><Contact /></div></PublicLayout>} />
+      </Routes>
     </>
   );
 }
 
-export default App;
+export default AppInner;
+

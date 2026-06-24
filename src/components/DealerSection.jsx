@@ -85,17 +85,6 @@ const DealerSection = () => {
               ))}
             </div>
 
-            <a
-              href="https://wa.me/917200949459?text=Hi, I want to become a TEKZAR dealer"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary btn-lg dealer-wa-btn"
-            >
-              Apply Now via WhatsApp
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
           </div>
 
           {/* Right: Form */}

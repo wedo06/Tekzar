@@ -1,13 +1,31 @@
-import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
 import './Footer.css';
 
 const Footer = () => {
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({ top, behavior: 'smooth' });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (path, hash) => {
+    if (path) {
+      navigate(path);
+    } else if (hash) {
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) {
+            const top = el.getBoundingClientRect().top + window.scrollY - 70;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        const el = document.getElementById(hash);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 70;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
     }
   };
 
@@ -17,10 +35,10 @@ const Footer = () => {
   ];
 
   const quickLinks = [
-    { label: 'Home', id: 'home' },
-    { label: 'About Us', id: 'about' },
-    { label: 'Dealers', id: 'dealers' },
-    { label: 'Contact', id: 'contact' },
+    { label: 'Home', path: '/' },
+    { label: 'About Us', path: '/about' },
+    { label: 'Dealers', path: '/dealers' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   const serviceLinks = [
@@ -84,7 +102,7 @@ const Footer = () => {
                   <li key={link}>
                     <button
                       className="footer-link"
-                      onClick={() => scrollTo('categories')}
+                      onClick={() => handleNavClick(null, 'categories')}
                     >
                       <span className="footer-link-dot" aria-hidden="true" />
                       {link}
@@ -99,10 +117,10 @@ const Footer = () => {
               <h4 className="footer-heading">Quick Links</h4>
               <ul className="footer-links">
                 {quickLinks.map((link) => (
-                  <li key={link.id}>
+                  <li key={link.label}>
                     <button
                       className="footer-link"
-                      onClick={() => scrollTo(link.id)}
+                      onClick={() => handleNavClick(link.path, null)}
                     >
                       <span className="footer-link-dot" aria-hidden="true" />
                       {link.label}
@@ -120,7 +138,7 @@ const Footer = () => {
                   <li key={link}>
                     <button
                       className="footer-link"
-                      onClick={() => scrollTo('contact')}
+                      onClick={() => handleNavClick('/contact', null)}
                     >
                       <span className="footer-link-dot" aria-hidden="true" />
                       {link}
@@ -146,12 +164,12 @@ const Footer = () => {
         <div className="container">
           <div className="footer-bottom-inner">
             <p className="footer-copy">
-              © {new Date().getFullYear()} Tekzar Equipments Pvt Ltd. All Rights Reserved.
+              © {new Date().getFullYear()} Tekzar Equipments Pvt Ltd. All Rights Reserved. <span style={{marginLeft: '10px', color: 'var(--white)', fontWeight: 'bold'}}>Developed by wedo</span>
             </p>
             <div className="footer-bottom-links">
-              <button className="footer-policy-link" onClick={() => scrollTo('home')}>Privacy Policy</button>
+              <button className="footer-policy-link" onClick={() => handleNavClick('/', null)}>Privacy Policy</button>
               <span aria-hidden="true">·</span>
-              <button className="footer-policy-link" onClick={() => scrollTo('home')}>Terms of Service</button>
+              <button className="footer-policy-link" onClick={() => handleNavClick('/', null)}>Terms of Service</button>
             </div>
           </div>
         </div>

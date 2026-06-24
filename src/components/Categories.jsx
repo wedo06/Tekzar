@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LayoutGrid } from 'lucide-react';
-import { categories } from '../data/products';
+import { LayoutGrid, Loader2 } from 'lucide-react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/config';
 import './Categories.css';
 
 import { Link } from 'react-router-dom';
@@ -77,8 +78,23 @@ const CategoryCard = ({ cat, index }) => {
 
 const Categories = () => {
   const headerRef = useRef(null);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'categories'));
+        const cats = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCategories(cats);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCategories();
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) headerRef.current?.classList.add('visible');
@@ -112,13 +128,19 @@ const Categories = () => {
         </div>
 
         {/* Grid */}
-        <div className="categories-grid" role="list">
-          {categories.map((cat, i) => (
-            <div key={cat.id} role="listitem">
-              <CategoryCard cat={cat} index={i} />
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0', color: 'var(--orange-primary)' }}>
+            <Loader2 className="animate-spin" size={48} />
+          </div>
+        ) : (
+          <div className="categories-grid" role="list">
+            {categories.map((cat, i) => (
+              <div key={cat.id} role="listitem">
+                <CategoryCard cat={cat} index={i} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

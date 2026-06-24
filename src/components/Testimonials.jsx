@@ -1,9 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
 import { Quote, MessageCircleHeart } from 'lucide-react';
-import 'swiper/css';
-import 'swiper/css/pagination';
 import { testimonials } from '../data/products';
 import './Testimonials.css';
 
@@ -11,7 +7,7 @@ const StarRating = ({ rating }) => (
   <div className="star-rating" aria-label={`${rating} out of 5 stars`}>
     {[...Array(5)].map((_, i) => (
       <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill={i < rating ? '#FF6B00' : 'none'} stroke="#FF6B00" strokeWidth="1.5" aria-hidden="true">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
     ))}
   </div>
@@ -52,44 +48,28 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="testimonials-slider fade-in" style={{ transitionDelay: '0.2s' }}>
-          <Swiper
-            modules={[Autoplay, Pagination]}
-            spaceBetween={20}
-            slidesPerView={1}
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-              1280: { slidesPerView: 4 },
-            }}
-          >
-            {testimonials.map((t, i) => (
-              <SwiperSlide key={i}>
-                <article className="testimonial-card" role="listitem">
-                  {/* Quote Icon */}
-                  <div className="quote-icon" aria-hidden="true">
-                    <Quote size={28} />
-                  </div>
+        <div className="testimonials-grid fade-in" style={{ transitionDelay: '0.2s' }} role="list">
+          {testimonials.map((t, i) => (
+            <article key={i} className="testimonial-card" role="listitem">
+              <div className="quote-icon" aria-hidden="true">
+                <Quote size={28} />
+              </div>
 
-                  <StarRating rating={t.rating} />
+              <StarRating rating={t.rating} />
 
-                  <blockquote className="testimonial-text">"{t.text}"</blockquote>
+              <blockquote className="testimonial-text">"{t.text}"</blockquote>
 
-                  <div className="testimonial-author">
-                    <div className="author-avatar" aria-hidden="true">
-                      {t.initials}
-                    </div>
-                    <div className="author-info">
-                      <cite className="author-name">{t.name}</cite>
-                      <span className="author-role">{t.role}, {t.location}</span>
-                    </div>
-                  </div>
-                </article>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+              <div className="testimonial-author">
+                <div className="author-avatar" aria-hidden="true">
+                  {t.initials}
+                </div>
+                <div className="author-info">
+                  <cite className="author-name">{t.name}</cite>
+                  <span className="author-role">{t.role}, {t.location}</span>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -52,12 +52,6 @@ const Contact = () => {
       link: 'mailto:info@shalomgreentech.in',
     },
     {
-      icon: <Globe size={24} />,
-      label: 'Website',
-      value: 'www.shalomgreentech.in',
-      link: 'https://www.shalomgreentech.in',
-    },
-    {
       icon: <MapPin size={24} />,
       label: 'Location',
       value: '125, Industrial Area, Coimbatore, Tamil Nadu, India',
