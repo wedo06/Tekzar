@@ -33,30 +33,62 @@ const ICONS = {
 const ImageUpload = ({ value, onChange, folder, placeholder = "+ Upload Image" }) => {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setErrorMsg('Only image files are allowed.');
+      return;
+    }
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setErrorMsg('File too large. Max size is 5MB.');
+      return;
+    }
+
+    setErrorMsg('');
     setUploading(true);
     setProgress(0);
-    
-    const fileRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
+
+    // Safe filename: strip special chars, add timestamp
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const fileRef = ref(storage, `${folder}/${Date.now()}_${safeName}`);
+
     const uploadTask = uploadBytesResumable(fileRef, file);
-    
-    uploadTask.on('state_changed', 
+
+    uploadTask.on('state_changed',
       (snapshot) => {
         const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         setProgress(prog);
       },
       (error) => {
-        alert("Upload failed: " + error.message);
+        console.error('Upload error:', error);
+        if (error.code === 'storage/unauthorized') {
+          setErrorMsg('Permission denied. Are you logged in as admin?');
+        } else if (error.code === 'storage/canceled') {
+          setErrorMsg('Upload canceled.');
+        } else if (error.message && error.message.includes('CORS')) {
+          setErrorMsg('CORS not configured. See setup instructions below.');
+        } else {
+          setErrorMsg('Upload failed: ' + (error.message || error.code));
+        }
         setUploading(false);
+        setProgress(0);
       },
       async () => {
-        const url = await getDownloadURL(uploadTask.snapshot.ref);
-        onChange(url);
+        try {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          onChange(url);
+          setErrorMsg('');
+        } catch (err) {
+          setErrorMsg('Upload succeeded but could not get URL. Try again.');
+        }
         setUploading(false);
+        setProgress(0);
       }
     );
   };
@@ -66,21 +98,41 @@ const ImageUpload = ({ value, onChange, folder, placeholder = "+ Upload Image" }
       {value ? (
         <div style={{ position: 'relative', width: 80, height: 80, borderRadius: 8, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.2)' }}>
           <img src={value} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <button 
-            type="button" 
-            onClick={() => onChange('')}
-            style={{ position: 'absolute', top: 4, right: 4, background: 'rgba(0,0,0,0.5)', color: '#fff', border: 'none', borderRadius: '50%', width: 24, height: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}
+          <button
+            type="button"
+            onClick={() => { onChange(''); setErrorMsg(''); }}
+            style={{ position: 'absolute', top: 4, right: 4, background: 'rgba(0,0,0,0.6)', color: '#fff', border: 'none', borderRadius: '50%', width: 24, height: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}
           >✕</button>
         </div>
       ) : (
-        <label style={{ display: 'inline-block', padding: '10px 16px', background: 'rgba(255,107,0,0.1)', color: '#FF8C42', borderRadius: 8, cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, textAlign: 'center', border: '1px dashed rgba(255,107,0,0.4)', width: 'fit-content' }}>
-          {uploading ? `Uploading... ${progress}%` : placeholder}
+        <label style={{ display: 'inline-block', padding: '10px 16px', background: uploading ? 'rgba(255,107,0,0.05)' : 'rgba(255,107,0,0.1)', color: '#FF8C42', borderRadius: 8, cursor: uploading ? 'not-allowed' : 'pointer', fontSize: '0.85rem', fontWeight: 600, textAlign: 'center', border: '1px dashed rgba(255,107,0,0.4)', width: 'fit-content', minWidth: 160 }}>
+          {uploading ? (
+            <span>
+              Uploading... {progress}%
+              <div style={{ marginTop: 6, height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${progress}%`, background: '#FF6B00', borderRadius: 2, transition: 'width 0.3s' }} />
+              </div>
+            </span>
+          ) : placeholder}
           <input type="file" accept="image/*" onChange={handleFileChange} disabled={uploading} style={{ display: 'none' }} />
         </label>
+      )}
+      {errorMsg && (
+        <div style={{ color: '#f87171', fontSize: '0.75rem', maxWidth: 260, lineHeight: 1.4 }}>
+          ⚠ {errorMsg}
+          {errorMsg.includes('CORS') && (
+            <div style={{ marginTop: 6, padding: 8, background: 'rgba(248,113,113,0.1)', borderRadius: 6, fontSize: '0.7rem' }}>
+              Run in terminal:<br/>
+              <code style={{ color: '#fbbf24' }}>npx firebase-tools@latest login</code><br/>
+              <code style={{ color: '#fbbf24' }}>npx firebase-tools@latest storage:cors --project tekzar-43775 update cors.json</code>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
 };
+
 
 // ── Category Form Modal ──
 const CategoryModal = ({ category, onClose, onSave }) => {
