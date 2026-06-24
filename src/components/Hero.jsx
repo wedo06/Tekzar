@@ -34,7 +34,7 @@ const Hero = () => {
           alt="Farmer using TEKZAR brush cutter in golden field"
           className="hero-img"
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
         />
         <div className="hero-overlay" />
         <div className="hero-gradient-left" />

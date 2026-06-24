@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Star, Loader2 } from 'lucide-react';
 import { collection, getDocs, limit, query } from 'firebase/firestore';
 import { db } from '../firebase/config';
@@ -39,7 +39,7 @@ const ProductCard = ({ product, index }) => {
       {/* Image */}
       <div className="product-img-wrap">
         <img
-          src={product.imageUrl}
+          src={product.imageUrl || null}
           alt={`${product.name} - TEKZAR ${product.category}`}
           className="product-img"
           loading="lazy"
