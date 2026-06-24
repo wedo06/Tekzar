@@ -62,7 +62,7 @@ const ProductCard = ({ product, index }) => {
           {(product.specs || []).map((spec, idx) => (
             <li key={idx} className="product-spec">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"/>
+                <polyline points="20 6 9 17 4 12" />
               </svg>
               {spec}
             </li>
@@ -71,6 +71,7 @@ const ProductCard = ({ product, index }) => {
 
         <div className="product-footer">
           <button
+            type="button"
             className="btn btn-primary btn-sm"
             onClick={scrollToContact}
             aria-label={`Enquire about ${product.name}`}

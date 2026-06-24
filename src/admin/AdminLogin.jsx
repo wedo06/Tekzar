@@ -51,7 +51,7 @@ const AdminLogin = () => {
               id="admin-email"
               type="email"
               className="admin-input"
-              placeholder="admin@tekzar.in"
+              placeholder="Enter Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
