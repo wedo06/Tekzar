@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Star, Loader2 } from 'lucide-react';
-import { collection, getDocs, limit, query } from 'firebase/firestore';
+import { collection, getDocs, limit, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import './FeaturedProducts.css';
 
@@ -34,16 +34,22 @@ const ProductCard = ({ product, index }) => {
       aria-label={`${product.name} - ${product.category}`}
     >
       {/* Tag */}
-      <div className={`product-tag tag-${product.tagColor}`}>{product.tag}</div>
+      <div className={`product-tag tag-${product.tagColor || 'orange'}`}>{product.tag || 'New'}</div>
 
       {/* Image */}
       <div className="product-img-wrap">
-        <img
-          src={product.imageUrl || null}
-          alt={`${product.name} - TEKZAR ${product.category}`}
-          className="product-img"
-          loading="lazy"
-        />
+        {product.imageUrl ? (
+          <img
+            src={product.imageUrl}
+            alt={`${product.name} - TEKZAR ${product.category}`}
+            className="product-img"
+            loading="lazy"
+          />
+        ) : (
+          <div className="product-img" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,107,0,0.05)', fontSize: '3rem' }}>
+            🌿
+          </div>
+        )}
         <div className="product-img-glow" aria-hidden="true" />
       </div>
 
@@ -53,8 +59,8 @@ const ProductCard = ({ product, index }) => {
         <h3 className="product-name">{product.name}</h3>
 
         <ul className="product-specs">
-          {product.specs.map((spec) => (
-            <li key={spec} className="product-spec">
+          {(product.specs || []).map((spec, idx) => (
+            <li key={idx} className="product-spec">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
@@ -82,19 +88,17 @@ const FeaturedProducts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const q = query(collection(db, 'products'), limit(6));
-        const querySnapshot = await getDocs(q);
-        const prods = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setFeaturedProducts(prods);
-      } catch (error) {
-        console.error("Error fetching featured products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
+    const q = query(collection(db, 'products'), limit(6));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      const prods = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      setFeaturedProducts(prods);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error fetching featured products:", error);
+      setLoading(false);
+    });
+
+    return () => unsub();
   }, []);
 
   return (

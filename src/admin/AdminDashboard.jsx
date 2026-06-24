@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../firebase/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
-  collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot
+  collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, setDoc
 } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebase/config';
@@ -284,7 +284,7 @@ const AdminDashboard = () => {
   // Real-time listeners
   useEffect(() => {
     const unsubCats = onSnapshot(collection(db, 'categories'), (snap) => {
-      setCategories(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setCategories(snap.docs.map(d => ({ ...d.data(), id: d.id })));
       setLoading(false);
     }, (error) => {
       console.error("Categories Error:", error);
@@ -293,7 +293,7 @@ const AdminDashboard = () => {
     });
 
     const unsubProds = onSnapshot(collection(db, 'products'), (snap) => {
-      setProducts(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setProducts(snap.docs.map(d => ({ ...d.data(), id: d.id })));
     }, (error) => {
       console.error("Products Error:", error);
     });
@@ -331,6 +331,41 @@ const AdminDashboard = () => {
     }
   };
 
+  // Reset & Re-import: delete all old docs then re-import with correct slug IDs
+  const resetAndImport = async () => {
+    if (!window.confirm("⚠️ This will DELETE all existing categories/products and re-import defaults. Are you sure?")) return;
+    setLoading(true);
+    try {
+      // Delete existing
+      const catSnap = await getDocs(collection(db, 'categories'));
+      for (const d of catSnap.docs) await deleteDoc(d.ref);
+      const prodSnap = await getDocs(collection(db, 'products'));
+      for (const d of prodSnap.docs) await deleteDoc(d.ref);
+
+      // Re-import with setDoc so IDs are slug-based
+      for (const cat of defaultCategories) {
+        const { id, icon, image, count, subCategories, ...rest } = cat;
+        await setDoc(doc(db, 'categories', id), {
+          ...rest,
+          imageUrl: image || '',
+          subCategories: subCategories ? subCategories.map(s => ({ name: s.name || s, imageUrl: s.image || '' })) : []
+        });
+      }
+      for (const prod of featuredProducts) {
+        const { id, image, price, ...rest } = prod;
+        await setDoc(doc(db, 'products', id.toString()), {
+          ...rest,
+          imageUrl: image || '',
+          category: prod.category || 'General'
+        });
+      }
+      alert("✅ Reset & Re-import successful! Your website now shows fresh data.");
+    } catch (e) {
+      alert("Error: " + e.message);
+    }
+    setLoading(false);
+  };
+
   const deleteProduct = async (id) => {
     if (!window.confirm('Delete this product? This cannot be undone.')) return;
     await deleteDoc(doc(db, 'products', id));
@@ -341,18 +376,18 @@ const AdminDashboard = () => {
     setLoading(true);
     try {
       for (const cat of defaultCategories) {
-        const { icon, image, count, subCategories, ...rest } = cat;
-        await addDoc(collection(db, 'categories'), { 
+        const { id, icon, image, count, subCategories, ...rest } = cat;
+        await setDoc(doc(db, 'categories', id), { 
           ...rest, 
-          imageUrl: '', 
-          subCategories: subCategories ? subCategories.map(s => ({ name: s.name || s, imageUrl: '' })) : [] 
+          imageUrl: image || '', 
+          subCategories: subCategories ? subCategories.map(s => ({ name: s.name || s, imageUrl: s.image || '' })) : [] 
         });
       }
       for (const prod of featuredProducts) {
-        const { image, price, ...rest } = prod;
-        await addDoc(collection(db, 'products'), { 
+        const { id, image, price, ...rest } = prod;
+        await setDoc(doc(db, 'products', id.toString()), { 
           ...rest, 
-          imageUrl: '',
+          imageUrl: image || '',
           category: prod.category || 'General'
         });
       }
@@ -446,20 +481,25 @@ const AdminDashboard = () => {
                   </div>
                 </div>
 
-                {categories.length === 0 && products.length === 0 && !loading && (
-                  <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', padding: 32, borderRadius: 20, textAlign: 'center' }}>
-                    <h3 style={{ color: '#4ADE80', marginBottom: 12 }}>Your Database is Empty</h3>
-                    <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>You can import the default data to get started quickly.</p>
-                    <button 
-                      onClick={importDefaultData}
-                      className="admin-save-btn" 
-                      style={{ background: 'linear-gradient(135deg, #4ADE80, #16A34A)' }}
-                    >
-                      <Icon path={ICONS.box} size={16} style={{ display: 'inline', marginRight: 8, verticalAlign: 'middle' }} />
-                      Import Default Data Now
-                    </button>
-                  </div>
-                )}
+                {/* Always-visible action cards */}
+                <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 8 }}>
+                  <button
+                    onClick={importDefaultData}
+                    className="admin-save-btn"
+                    style={{ background: 'linear-gradient(135deg, #4ADE80, #16A34A)', flex: 1, minWidth: 200 }}
+                  >
+                    <Icon path={ICONS.box} size={16} style={{ display: 'inline', marginRight: 8, verticalAlign: 'middle' }} />
+                    Import Default Data
+                  </button>
+                  <button
+                    onClick={resetAndImport}
+                    className="admin-save-btn"
+                    style={{ background: 'linear-gradient(135deg, #f87171, #dc2626)', flex: 1, minWidth: 200 }}
+                  >
+                    <Icon path={ICONS.trash} size={16} style={{ display: 'inline', marginRight: 8, verticalAlign: 'middle' }} />
+                    Reset &amp; Re-import All
+                  </button>
+                </div>
               </div>
             )}
 

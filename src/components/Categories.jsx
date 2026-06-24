@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LayoutGrid, Loader2 } from 'lucide-react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import './Categories.css';
 
@@ -35,9 +35,9 @@ const CategoryCard = ({ cat, index }) => {
     >
       {/* Image */}
       <div className="cat-img-wrap">
-        {cat.image ? (
+        {cat.imageUrl ? (
           <img
-            src={cat.image}
+            src={cat.imageUrl}
             alt={`TEKZAR ${cat.name}`}
             className={`cat-img ${hovered ? 'zoomed' : ''}`}
             loading="lazy"
@@ -82,18 +82,14 @@ const Categories = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'categories'));
-        const cats = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setCategories(cats);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
+    const unsub = onSnapshot(collection(db, 'categories'), (querySnapshot) => {
+      const cats = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      setCategories(cats);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error fetching categories:", error);
+      setLoading(false);
+    });
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -102,7 +98,10 @@ const Categories = () => {
       { threshold: 0.1 }
     );
     if (headerRef.current) observer.observe(headerRef.current);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      unsub();
+    };
   }, []);
 
   return (

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, Phone, MessageCircle } from 'lucide-react';
-import { categories } from '../data/products';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase/config';
 import logoImg from '../assets/logo.png';
 import './Navbar.css';
 
@@ -9,9 +10,18 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Load categories from Firestore in real-time
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, 'categories'), (snap) => {
+      setCategories(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
